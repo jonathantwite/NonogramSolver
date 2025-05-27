@@ -32,11 +32,16 @@ public class Grid
         var changeMade = false;
         foreach(var row in Rows)
         {
+            if (!row.NeedsProcessing)
+            {
+                continue;
+            }
             var possibilities = RowUtilities.CreateAllPossibilities(row.Size, row.Clues);
             var possibilitiesThatFit = RowUtilities.FilterToPossibilitiesThatFit(possibilities, row.Cells);
             var certainties = RowUtilities.GetAllDefinites(possibilitiesThatFit.ToArray());
-
-            changeMade = changeMade || row.Overwrite(certainties);
+            
+            var change = row.Overwrite(certainties);
+            changeMade = changeMade || change;
         }
 
         return changeMade;
@@ -47,11 +52,16 @@ public class Grid
         var changeMade = false;
         foreach(var col in Columns)
         {
+            if (!col.NeedsProcessing)
+            {
+                continue;
+            }
             var possibilities = RowUtilities.CreateAllPossibilities(col.Size, col.Clues);
             var possibilitiesThatFit = RowUtilities.FilterToPossibilitiesThatFit(possibilities, col.Cells);
             var certainties = RowUtilities.GetAllDefinites(possibilitiesThatFit.ToArray());
 
-            changeMade = changeMade || col.Overwrite(certainties);
+            var change = col.Overwrite(certainties);
+            changeMade = changeMade || change;
         }
 
         return changeMade;

@@ -1,4 +1,5 @@
 ﻿using NonogramSolver;
+using System.Diagnostics;
 
 int sizeX = 15;
 int sizeY = 15;
@@ -39,6 +40,9 @@ int[][] columnClues = [
     [2,1,3,2,1],
     [6,2]];
 
+Stopwatch sw = new Stopwatch();
+sw.Start();
+
 Grid grid = new Grid(sizeX, sizeY, rowClues, columnClues);
 
 var changeMade = true;
@@ -54,6 +58,8 @@ while (changeMade && !grid.IsComplete)
 }
 
 Display(true);
+Console.WriteLine(string.Format("{0:P}", grid.Complete) + " completed in " + (sw.ElapsedMilliseconds / 1000.0M) + "s");
+
 
 void Display(bool showGrid = false)
 {

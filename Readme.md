@@ -13,6 +13,8 @@ It works in what I call a "row then column" processing style, working like a hum
 1. The process is then repeated for each column.
 1. The process of processing rows and columns is then repeated until either the grid is complete, or no changes are made by a full (row and column) cycle.
 
+This is then further optimised so that only the rows and columns that have changed are processed.  This is done by, when cells are changed, they are marked as "Needs Processing" until the next time they are touched.  If a row or column has no cells that need processing, it is skipped.
+
 ## Notes
 
 Rows and Columns are fundamentally a very similar concept and we need the same style of processing to happen to both.  Therefore they both inherit from an abstract base class that holds the majority of the logic.  The major difference is how they are created, with the rows be created "normally" and the columns being created out of these resultant rows.

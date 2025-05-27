@@ -7,6 +7,7 @@ public abstract class GridPart
     public int[] Clues { get; init; }
     public bool IsComplete => !Cells.Any(c => c.Value == null);
     public int Complete => Cells.Count(c => c.Value.HasValue);
+    public bool NeedsProcessing => Cells.Any(c => c.NeedsProcessing);
 
     public bool Overwrite(bool?[] newValues)
     {
@@ -23,6 +24,11 @@ public abstract class GridPart
             {
                 Cells[i].Value = newValues[i];
                 changeMade = true;
+                Cells[i].NeedsProcessing = true;
+            }
+            else
+            {
+                Cells[i].NeedsProcessing = false;
             }
         }
 
