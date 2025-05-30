@@ -51,7 +51,7 @@ public class ColumnTests
         r1.Overwrite([true, null, false]);
         r2.Overwrite([null, false, false]);
         r3.Overwrite([null, null, true]);
-        
+
         var actual1 = cols[0].Cells.Select(c => c.Value);
         var actual2 = cols[1].Cells.Select(c => c.Value);
         var actual3 = cols[2].Cells.Select(c => c.Value);
@@ -85,6 +85,41 @@ public class ColumnTests
         Assert.Equal(expected1, actual1);
         Assert.Equal(expected2, actual2);
         Assert.Equal(expected3, actual3);
+    }
+
+    public static IEnumerable<object[]> FromRowsThrowsIfNumOfClueColumnsDoesNotMatchSizeData => new List<object[]>
+    {
+        new object[] { 3, new int[][] { [6] } },
+        new object[] { 3, new int[][] { [6, 4, 6] } },
+        new object[] { 3, new int[][] { [6, 4, 6], [2, 5, 2] } },
+        new object[] { 3, new int[][] { [6, 4, 6], [2, 5, 2], [6, 4, 6], [2, 5, 2] } },
+    };
+
+    [Theory]
+    [MemberData(nameof(FromRowsThrowsIfNumOfClueColumnsDoesNotMatchSizeData))]
+    public void FromRowsThrowsIfNumOfClueColumnsDoesNotMatchSize(int size, int[][] clues)
+    {
+        // Act
+        Assert.Throws<ArgumentException>(() =>
+        {
+            Column.FromRows([new Row(size, [])], clues);
+        });
+    }
+
+    public static IEnumerable<object[]> FromRowsDoesNotThrowIfNumOfClueColumnsMatchesSizeData => new List<object[]>
+    {
+        new object[] { 1, new int[][] { [6] } },
+        new object[] { 1, new int[][] { [6, 4, 6] } },
+        new object[] { 2, new int[][] { [6, 4, 6], [2, 5, 2] } },
+        new object[] { 4, new int[][] { [6, 4, 6], [2, 5, 2], [6, 4, 6], [2, 5, 2] } },
+    };
+
+    [Theory]
+    [MemberData(nameof(FromRowsDoesNotThrowIfNumOfClueColumnsMatchesSizeData))]
+    public void FromRowsDoesNotThrowIfNumOfClueColumnsMatchesSize(int size, int[][] clues)
+    {
+        // Act
+        Column.FromRows([new Row(size, [])], clues);
     }
 
     [Fact]

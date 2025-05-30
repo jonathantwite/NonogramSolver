@@ -12,7 +12,7 @@ public class RowTests
     public void ToStringGivesCorrectOutput(Row row, string expected)
     {
         // Arrange
-        
+
         // Act
         var actual = row.ToString();
 

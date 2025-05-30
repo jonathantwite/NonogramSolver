@@ -15,6 +15,16 @@ public class Grid
 
     public Grid(int sizeX, int sizeY, int[][] rowsClues, int[][] columnsClues)
     {
+        if (rowsClues.Length != sizeY)
+        {
+            throw new ArgumentException("The number of row clue entries does not match the number of rows");
+        }
+
+        if (columnsClues.Length != sizeX)
+        {
+            throw new ArgumentException("The number of column clue entries does not match the number of columns");
+        }
+
         SizeX = sizeX;
         SizeY = sizeY;
 
@@ -39,7 +49,7 @@ public class Grid
             var possibilities = RowUtilities.CreateAllPossibilities(row.Size, row.Clues);
             var possibilitiesThatFit = RowUtilities.FilterToPossibilitiesThatFit(possibilities, row.Cells);
             var certainties = RowUtilities.GetAllDefinites(possibilitiesThatFit.ToArray());
-            
+
             var change = row.Overwrite(certainties);
             changeMade = changeMade || change;
         }
