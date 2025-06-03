@@ -4,7 +4,71 @@ namespace NonogramSolver;
 
 public static class RowUtilities
 {
-    public static IEnumerable<bool[]> CreateAllPossibilities(int size, int[] clues)
+    public static IEnumerable<bool[]> CreateAllPossibilitiesByGap(int size, int[] clues)
+    {
+        List<bool[]> result = [];
+
+        if (clues.Length == 1 && clues[0] == 0)
+        {
+            return [new bool[size]];
+        }
+
+        int[] gaps = new int[clues.Length];
+
+        // At least one gap between blocks, except the first (start of line)
+        Array.Fill(gaps, 1);
+        gaps[0] = 0;
+
+        var tooBig = false;
+
+        var haveIncreasedAGap = true;
+
+        while (haveIncreasedAGap/* && gaps.Sum() + clues.Sum() <= size*/)
+        {
+            //Console.WriteLine($"Trying gaps: {string.Join(", ", gaps)}");
+            List<bool> row = [];
+            tooBig = false;
+            for (int i = 0; i < clues.Length; i++)
+            {
+                row.AddRange(ArrayHelper.CreateFilled(gaps[i], false));
+                row.AddRange(ArrayHelper.CreateFilled(clues[i], true));
+                if (row.Count > size)
+                {
+                    tooBig = true;
+                    break;
+                }
+            }
+
+            if (!tooBig)
+            {
+                var rowArray = row.ToArray();
+                Array.Resize(ref rowArray, size);
+                result.Add(rowArray);
+            }
+
+
+            haveIncreasedAGap = false;
+
+            for (int i = 0; i < gaps.Length; i++)
+            {
+                if (gaps[i] <= (size - clues.Sum() - (clues.Count() - 1)))
+                {
+                    gaps[i]++;
+                    haveIncreasedAGap = true;
+                    break;
+                }
+                else
+                {
+                    gaps[i] = i == 0 ? 0 : 1; // Reset this gap
+                }
+            }
+        }
+
+
+        return result;
+    }
+
+    public static IEnumerable<bool[]> CreateAllPossibilitiesBruteForce(int size, int[] clues)
     {
         List<bool[]> result = [];
         var max = Math.Pow(2, size) - 1;

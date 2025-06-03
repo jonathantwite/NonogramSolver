@@ -37,40 +37,38 @@ public class Grid
         Columns = Column.FromRows(Rows, columnsClues);
     }
 
-    public bool ProcessAllRows()
+    public bool ProcessAllRows() => ProcessAllGridParts(Rows);
+
+    public bool ProcessAllColumns() => ProcessAllGridParts(Columns);
+
+    private bool ProcessAllGridParts(GridPart[] rowOrColumn)
     {
         var changeMade = false;
-        foreach(var row in Rows)
+        foreach (var row in rowOrColumn)
         {
             if (!row.NeedsProcessing)
             {
                 continue;
             }
-            var possibilities = RowUtilities.CreateAllPossibilities(row.Size, row.Clues);
-            var possibilitiesThatFit = RowUtilities.FilterToPossibilitiesThatFit(possibilities, row.Cells);
-            var certainties = RowUtilities.GetAllDefinites(possibilitiesThatFit.ToArray());
+
+            //Console.Clear();
+            //Console.WriteLine($"Processing row {string.Join(", ", row.Clues)}");
+
+            IEnumerable<bool[]> allPossibilities = [];
+            if (row.Clues.Length <= 4)
+            {
+                allPossibilities = RowUtilities.CreateAllPossibilitiesByGap(row.Size, row.Clues);
+            }
+            else
+            {
+                allPossibilities = RowUtilities.CreateAllPossibilitiesBruteForce(row.Size, row.Clues);
+            }
+
+            var possibilities = RowUtilities.FilterToPossibilitiesThatFit(allPossibilities, row.Cells);
+
+            var certainties = RowUtilities.GetAllDefinites(possibilities.ToArray());
 
             var change = row.Overwrite(certainties);
-            changeMade = changeMade || change;
-        }
-
-        return changeMade;
-    }
-
-    public bool ProcessAllColumns()
-    {
-        var changeMade = false;
-        foreach(var col in Columns)
-        {
-            if (!col.NeedsProcessing)
-            {
-                continue;
-            }
-            var possibilities = RowUtilities.CreateAllPossibilities(col.Size, col.Clues);
-            var possibilitiesThatFit = RowUtilities.FilterToPossibilitiesThatFit(possibilities, col.Cells);
-            var certainties = RowUtilities.GetAllDefinites(possibilitiesThatFit.ToArray());
-
-            var change = col.Overwrite(certainties);
             changeMade = changeMade || change;
         }
 

@@ -10,7 +10,7 @@ public class Row : GridPart
         }
         Size = size;
         Cells = new Cell[size];
-        Array.Fill(Cells, () => new Cell());
+        ArrayHelper.Fill(Cells, () => new Cell());
         Clues = clues;
     }
 
