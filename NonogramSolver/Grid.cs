@@ -44,11 +44,13 @@ public class Grid
     private bool ProcessAllGridParts(GridPart[] rowOrColumn)
     {
         var changeMade = false;
-        foreach (var row in rowOrColumn)
+        Parallel.ForEach(rowOrColumn, row =>
         {
+            //foreach (var row in rowOrColumn)
+            //{
             if (!row.NeedsProcessing)
             {
-                continue;
+                return;
             }
 
             //Console.Clear();
@@ -70,7 +72,8 @@ public class Grid
 
             var change = row.Overwrite(certainties);
             changeMade = changeMade || change;
-        }
+            //}
+        });
 
         return changeMade;
     }

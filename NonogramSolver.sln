@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonogramSolver.Benchmarks", "NonogramSolver.Benchmarks\NonogramSolver.Benchmarks.csproj", "{D5436B7D-03C5-DC7B-319F-AAE8611DC8F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{F74B2839-19DA-4370-B8C9-009EEF0A4577}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F74B2839-19DA-4370-B8C9-009EEF0A4577}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F74B2839-19DA-4370-B8C9-009EEF0A4577}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5436B7D-03C5-DC7B-319F-AAE8611DC8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5436B7D-03C5-DC7B-319F-AAE8611DC8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5436B7D-03C5-DC7B-319F-AAE8611DC8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5436B7D-03C5-DC7B-319F-AAE8611DC8F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
